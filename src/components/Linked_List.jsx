@@ -20,6 +20,10 @@ function Linked() {
   const [textareaValue, setTextareaValue] = useState(
     "- Organize data in a specific order.\r- Dynamic resizing can be useful.\r- Less efficient than arrays for accessing elements in a specific order or index. "
   );
+  const [isShrunk, setIsShrunk] = useState(false);
+  const shrinkDiv = () => {
+    setIsShrunk(!isShrunk);
+  };
   let mouseDown = false;
   let selectedCube = null;
   let lastMouseX = 0;
@@ -132,8 +136,8 @@ function Linked() {
 
   return (
     <div ref={canvasRef} id="canvas">
-      <div id="main" className="main">
-        <form action="/array" method="post">
+            <div id="main" className={`main${isShrunk ? ' shrunk' : ''}`}>
+        <form action="/array" method="post" className={`m-1 ${isShrunk ? 'hidden' : ''}`}>
           <h1 id="title" className="m-1">
             Linked List
           </h1>
@@ -235,6 +239,9 @@ function Linked() {
             />
           </div>
         </form>
+        <div className={`shrink-button${isShrunk ? ' shrunk' : ''}`} onClick={shrinkDiv}>
+          X
+        </div>
       </div>
     </div>
   );

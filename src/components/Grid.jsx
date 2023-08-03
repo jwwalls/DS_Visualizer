@@ -18,6 +18,10 @@ function Grid() {
   const [textareaValue, setTextareaValue] = useState(
     "- Useful for two-dimensional data organization.\r- Fixed size can limit flexibility.\r- Accessing elements can be more complex than one-dimensional structures."
   );
+  const [isShrunk, setIsShrunk] = useState(false);
+  const shrinkDiv = () => {
+    setIsShrunk(!isShrunk);
+  };
   let mouseDown = false;
   let selectedCube = null;
   let lastMouseX = 0;
@@ -134,8 +138,8 @@ function Grid() {
 
   return (
     <div ref={canvasRef} id="canvas">
-      <div id="main" className="main">
-        <form action="/array" method="post">
+            <div id="main" className={`main${isShrunk ? ' shrunk' : ''}`}>
+        <form action="/array" method="post" className={`m-1 ${isShrunk ? 'hidden' : ''}`}>
           <h1 id="title" className="m-1">
             2D-Grid
           </h1>
@@ -237,6 +241,9 @@ function Grid() {
             />
           </div>
         </form>
+        <div className={`shrink-button${isShrunk ? ' shrunk' : ''}`} onClick={shrinkDiv}>
+          X
+        </div>
       </div>
     </div>
   );

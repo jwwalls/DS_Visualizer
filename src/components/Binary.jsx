@@ -21,6 +21,10 @@ function Binary() {
     "- Useful for hierarchical data structures.\n- Efficient searching and sorting.\n- More complex to implement than some other data structures."
   );
   let spheresLoad = false;
+  const [isShrunk, setIsShrunk] = useState(false);
+  const shrinkDiv = () => {
+    setIsShrunk(!isShrunk);
+  };
 
   const callSpheres = () => {
     if (!spheresLoad) {
@@ -151,8 +155,8 @@ function Binary() {
 
   return (
     <div ref={canvasRef} id="canvas">
-      <div id="main" className="main">
-        <form action="/array" method="post">
+       <div id="main" className={`main${isShrunk ? ' shrunk' : ''}`}>
+        <form action="/array" method="post" className={`m-1 ${isShrunk ? 'hidden' : ''}`} >
           <h1 id="title" className="m-1">
             Binary Tree
           </h1>
@@ -252,6 +256,9 @@ function Binary() {
             />
           </div>
         </form>
+        <div className={`shrink-button${isShrunk ? ' shrunk' : ''}`} onClick={shrinkDiv}>
+          X
+        </div>
       </div>
     </div>
   );

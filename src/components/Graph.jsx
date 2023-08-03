@@ -25,6 +25,10 @@ function Graph() {
     "- Useful for modeling complex relationships between data.\r- Modeling social networks, transportation systems, etc.\r- Can be challenging to implement, but provide a lot of flexibility and power."
   );
   let spheresLoad = false;
+  const [isShrunk, setIsShrunk] = useState(false);
+  const shrinkDiv = () => {
+    setIsShrunk(!isShrunk);
+  };
 
   const callSpheres = () => {
     if (!spheresLoad) {
@@ -155,8 +159,8 @@ function Graph() {
 
   return (
     <div ref={canvasRef} id="canvas">
-      <div id="main" className="main">
-        <form action="/array" method="post">
+            <div id="main" className={`main${isShrunk ? ' shrunk' : ''}`}>
+        <form action="/array" method="post" className={`m-1 ${isShrunk ? 'hidden' : ''}`}>
           <h1 id="title" className="m-1">
             Graph
           </h1>
@@ -256,6 +260,9 @@ function Graph() {
             />
           </div>
         </form>
+        <div className={`shrink-button${isShrunk ? ' shrunk' : ''}`} onClick={shrinkDiv}>
+          X
+        </div>
       </div>
     </div>
   );

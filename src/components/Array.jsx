@@ -14,6 +14,7 @@ import * as THREE from "three";
 function Array() {
   const canvasRef = useRef(null);
   const [cubes, setCubes] = useState([1, 2, 3]);
+  const [isShrunk, setIsShrunk] = useState(false);
   const [textareaValue, setTextareaValue] = useState(
     "- Useful for accessing elements in a specific order or index. \r- Fixed size can limit flexibility.\r- Simple, one-dimensional data storage."
   );
@@ -35,6 +36,10 @@ function Array() {
   useEffect(() => {
     callCubes();
   }, [cubes]);
+  
+  const shrinkDiv = () => {
+    setIsShrunk(!isShrunk);
+  };
 
   useEffect(() => {
     if (document.getElementById("about").innerHTML === "Dataset:") {
@@ -119,9 +124,9 @@ function Array() {
 
   return (
     <div ref={canvasRef} id="canvas">
-      <div id="main" className="main">
-        <form action="/array" method="post">
-          <h1 id="title" className="m-1">
+      <div id="main" className={`main${isShrunk ? ' shrunk' : ''}`}>
+        <form action="/array" method="post" className={`m-1 ${isShrunk ? 'hidden' : ''}`}>
+        <h1 id="title" className={`m-1 `}>  
             Array
           </h1>
           <div id="dataDiv" style={{ display: "block" }}>
@@ -220,6 +225,9 @@ function Array() {
             />
           </div>
         </form>
+        <div className={`shrink-button${isShrunk ? ' shrunk' : ''}`} onClick={shrinkDiv}>
+          X
+        </div>
       </div>
     </div>
   );

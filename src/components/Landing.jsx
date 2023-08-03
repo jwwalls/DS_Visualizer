@@ -8,16 +8,20 @@ import {
   enableTable,
   clearScene,
 } from "../static/script";
-import { renderer,  camera, controls,scene } from "../static/init";
+import { renderer, camera, controls, scene } from "../static/init";
 import * as THREE from "three";
 
 function Landing() {
-    const sceneL =  new THREE.Scene;
+  const sceneL = new THREE.Scene();
   const canvasRef = useRef(null);
   const [cubes, setCubes] = useState([1]);
   const [textareaValue, setTextareaValue] = useState(
     "- Edit this field to visulaze your own data structures! Must select dataset first.\r- Right Click: Drag\r- Left Click: Grab"
   );
+  const [isShrunk, setIsShrunk] = useState(false);
+  const shrinkDiv = () => {
+    setIsShrunk(!isShrunk);
+  };
   let mouseDown = false;
   let selectedCube = null;
   let lastMouseX = 0;
@@ -25,7 +29,6 @@ function Landing() {
   let cubesLoad = false;
 
   const callCubes = () => {
-    
     if (!cubesLoad) {
       cubes.forEach((cube, i) => {
         addNewCube(scene, `Welcome!`, "Spin", i, 0);
@@ -42,14 +45,12 @@ function Landing() {
     if (document.getElementById("about").innerHTML === "Dataset:") {
       let split = textareaValue.split(",");
 
-      setCubes(split);      
-      clearScene(scene,cubes3);
+      setCubes(split);
+      clearScene(scene, cubes3);
     }
   }, [textareaValue]);
 
-  
-  useEffect(() => {    
-    
+  useEffect(() => {
     canvasRef.current.appendChild(renderer.domElement);
     callCubes();
 
@@ -123,8 +124,8 @@ function Landing() {
 
   return (
     <div ref={canvasRef} id="canvas">
-      <div id="main" className="main">
-        <form action="/array" method="post">
+      <div id="main" className={`main${isShrunk ? " shrunk" : ""}`}>
+        <form action="/array" method="post" className={`m-1 ${isShrunk ? 'hidden' : ''}`}>
           <h1 id="title" className="m-1">
             Getting Started
           </h1>
@@ -144,9 +145,7 @@ function Landing() {
               cols="35"
               value={textareaValue}
               onChange={(e) => setTextareaValue(e.target.value)}
-            >
-              
-            </textarea>
+            ></textarea>
           </div>
 
           <div>
@@ -226,9 +225,15 @@ function Landing() {
             />
           </div>
         </form>
+        <div
+          className={`shrink-button${isShrunk ? " shrunk" : ""}`}
+          onClick={shrinkDiv}
+        >
+          X
+        </div>
       </div>
     </div>
   );
 }
 
-export default Landing
+export default Landing;
